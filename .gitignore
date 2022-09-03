@@ -1,0 +1,7 @@
+share/app/**
+!share/app/.gitkeep
+share/models/**
+!share/models/.gitkeep
+share/facexlib/**
+!share/facexlib/.gitkeep
+output/**
