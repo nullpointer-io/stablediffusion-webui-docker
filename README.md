@@ -5,6 +5,9 @@ Build and run the Stable Diffusion Webui in Docker on Linux.
 This project is based on the Windows variant:
 https://github.com/Sharrnah/stable-diffusion-docker
 
+It will be kept in sync with the original project. 
+
+
 ## Setup Reference
 
 Tested with following computer setup:
@@ -49,7 +52,14 @@ cd stablediffusion-webui-docker
 ``` 
 ./webui.sh build
 ```
-4. Edit the file **env** and uncomment your favorite GPU configuration. 
+4. Edit the file **env** and uncomment your favorite GPU configuration.
+
+Optional also in the **env** file:
+- WEBUI_RELAUNCH: Comment out or set it to false if you want to deactivate it.
+  It is a healing mechanism if the Webui process should exit within
+  Docker for some reason. 
+- ENABLE_TEXTUAL_INVERSION: Currently it will break LDSR so it is not
+  enabled. If you need it then comment it in. 
 
 5. Run Stable Diffusion Webui:
 ``` 

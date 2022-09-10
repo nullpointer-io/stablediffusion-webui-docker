@@ -1,3 +1,6 @@
+# enable / disable automatic relaunching of WebUI
+WEBUI_RELAUNCH=true
+
 # enable textual inversion (currently breaks Latent Diffusion Super Resolution (LDSR)
 #ENABLE_TEXTUAL_INVERSION=true
 

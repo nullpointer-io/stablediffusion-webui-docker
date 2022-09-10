@@ -6,15 +6,12 @@ MODEL_FILES=(
  'GFPGANv1.3.pth https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.3.pth c953a88f2727c85c3d9ae72e2bd4846bbaf59fe6972ad94130e23e7017524a70'
  'RealESRGAN_x4plus.pth https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth 4fa0d38905f75ac06eb49a7951b426670021be3018265fd191d2125df9d682f1'
  'RealESRGAN_x4plus_anime_6B.pth https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth f872d837d3c90ed2e05227bed711af5671a6fd1c9f7d7e91c911a61f155e99da'
+ 'LDSR.ckpt https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1 c209caecac2f97b4bb8f4d726b70ac2ac9b35904b7fc99801e1f5e61f9210c13'
 )
 
 FACEXLIB_FILES=(
  'detection_Resnet50_Final.pth https://github.com/xinntao/facexlib/releases/download/v0.1.0/detection_Resnet50_Final.pth 6d1de9c2944f2ccddca5f5e010ea5ae64a39845a86311af6fdf30841b0a5a16d'  
  'parsing_parsenet.pth https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth 3d558d8d0e42c20224f13cf5a29c79eba2d59913419f945545d8cf7b72920de2'
-)
-
-LDSR_FILES=(
- 'LDSR.ckpt https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1 c209caecac2f97b4bb8f4d726b70ac2ac9b35904b7fc99801e1f5e61f9210c13'
 )
 
 checksum () {
@@ -60,13 +57,6 @@ for model in "${FACEXLIB_FILES[@]}"; do
     validate_download ${model[0]} ${model[1]} ${model[2]} /app/src/facexlib/facexlib/weights
 done
 
-# Validate LDSR files
-echo "Validating LDSR files..."
-for model in "${LDSR_FILES[@]}"; do
-    model=($model)
-    validate_download ${model[0]} ${model[1]} ${model[2]} /models
-done
-
 #socat TCP4-LISTEN:8080,fork TCP4:172.17.0.1:7860 &
 
 # Enable textual inversion (because it is not compatible with Latent diffusion currently, its set for opt-in)
@@ -76,22 +66,48 @@ if [ "${ENABLE_TEXTUAL_INVERSION}" = "true" ] ; then
   cp -ax /tmp/sd-enable-textual-inversion/* /app/ && rm -rf /tmp/sd-enable-textual-inversion
 fi
 
+RUN_ARGS=""
+
 if [ "${RUN_MODE}" = "OPTIMIZED" ] ; then
   echo "Running OPTIMIZED mode"
-  conda run --no-capture-output -n ldm python scripts/webui.py --gfpgan-cpu --esrgan-cpu --optimized
+  RUN_ARGS="--gfpgan-cpu --esrgan-cpu --optimized"
 elif [ "${RUN_MODE}" = "OPTIMIZED-TURBO" ] ; then
   echo "Running OPTIMIZED-TURBO mode"
-  conda run --no-capture-output -n ldm python scripts/webui.py --gfpgan-cpu --esrgan-cpu --optimized-turbo
+  RUN_ARGS="--gfpgan-cpu --esrgan-cpu --optimized-turbo"
 elif [ "${RUN_MODE}" = "GTX16" ] ; then
   echo "Running GTX16 mode"
-  conda run --no-capture-output -n ldm python scripts/webui.py --precision full --no-half --gfpgan-cpu --esrgan-cpu --optimized
+  RUN_ARGS="--precision full --no-half --gfpgan-cpu --esrgan-cpu --optimized"
 elif [ "${RUN_MODE}" = "GTX16-TURBO" ] ; then
   echo "Running GTX16-TURBO mode"
-  conda run --no-capture-output -n ldm python scripts/webui.py --precision full --no-half --gfpgan-cpu --esrgan-cpu --optimized-turbo
+  RUN_ARGS="--precision full --no-half --gfpgan-cpu --esrgan-cpu --optimized-turbo"
 elif [ "${RUN_MODE}" = "FULL-PRECISION" ] ; then
   echo "Running FULL-PRECISION mode"
-  conda run --no-capture-output -n ldm python scripts/webui.py --precision=full --no-half
+  RUN_ARGS="--precision full --precision=full --no-half"
 else
   echo "Running default mode"
-  conda run --no-capture-output -n ldm python scripts/webui.py
+fi
+
+
+if [[ -z $RUN_ARGS ]]; then
+    launch_message="entrypoint.sh: Launching..."
+else
+    launch_message="entrypoint.sh: Launching with arguments ${RUN_ARGS}"
+fi
+# handle automatic relaunching
+if [[ -z $WEBUI_RELAUNCH || $WEBUI_RELAUNCH == "true" ]]; then
+    n=0
+    while true; do
+
+        echo $launch_message
+        if (( $n > 0 )); then
+            echo "Relaunch count: ${n}"
+        fi
+        conda run --no-capture-output -n ldm python -u scripts/webui.py $RUN_ARGS
+        echo "entrypoint.sh: Process is ending. Relaunching in 0.5s..."
+        ((n++))
+        sleep 0.5
+    done
+else
+    echo $launch_message
+    conda run --no-capture-output -n ldm python -u scripts/webui.py $RUN_ARGS
 fi
