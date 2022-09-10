@@ -53,7 +53,7 @@ cd stablediffusion-webui-docker
 ```
 4. Edit the file **env** and uncomment your favorite GPU configuration.
 
-Optional also in the **env** file:
+Optionally:
 - WEBUI_RELAUNCH: Comment it in if you experience that the Webui gets 
   unresponsive quite often because the process died within the Docker
   container.
