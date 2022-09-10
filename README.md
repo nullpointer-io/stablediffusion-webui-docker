@@ -73,7 +73,7 @@ The AI models are downloaded automatically when the related files are missing in
 All information about the models (URLs, hashes, etc.) are configured in the file
 `build/entrypoint.sh`.
 
-7. Now the final result is:
+7. Final result:
 
 - A Docker container with the name `stablediffusion-webui` is available.
 - The webui is listening on http://127.0.0.1:7860.
