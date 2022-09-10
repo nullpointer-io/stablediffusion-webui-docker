@@ -3,7 +3,7 @@
 Build and run the Stable Diffusion Webui in Docker on Linux.
 
 This project is based on the Windows variant:
-https://github.com/Sharrnah/Stable-Diffusion-Docker
+https://github.com/Sharrnah/stable-diffusion-docker
 
 ## Setup Reference
 
@@ -80,5 +80,5 @@ Output files are stored to `./output`.
 ## References
 
 - https://rentry.org/GUItard
-- https://github.com/hlky/stable-diffusion
+- https://github.com/sd-webui/stable-diffusion-webui
 - https://github.com/Sharrnah/Stable-Diffusion-Docker
