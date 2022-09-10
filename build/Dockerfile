@@ -62,6 +62,6 @@ RUN mkdir -p /output && ln -s /output /app/outputs
 # Set RUN_MODE (possible options are inside env)
 ENV RUN_MODE=false
 # Set to enable/disable automatic restart of WebUI
-ENV WEBUI_RELAUNCH=true
+ENV WEBUI_RELAUNCH=false
 
 CMD /bin/bash -C entrypoint.sh
