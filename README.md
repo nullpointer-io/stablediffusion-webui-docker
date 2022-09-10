@@ -82,7 +82,7 @@ All information about the models (URLs, hashes, etc.) are configured in the file
 
 Open the URL http://127.0.0.1:7860. 
 
-How to use the Stable Diffusion Webui see here: https://github.com/sd-webui/stable-diffusion-webui
+How to use the Stable Diffusion Webui: https://github.com/sd-webui/stable-diffusion-webui
 
 Output files are stored to `./output`.
 
