@@ -13,6 +13,10 @@ FACEXLIB_FILES=(
  'parsing_parsenet.pth https://github.com/xinntao/facexlib/releases/download/v0.2.2/parsing_parsenet.pth 3d558d8d0e42c20224f13cf5a29c79eba2d59913419f945545d8cf7b72920de2'
 )
 
+LDSR_FILES=(
+ 'LDSR.ckpt https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1 c209caecac2f97b4bb8f4d726b70ac2ac9b35904b7fc99801e1f5e61f9210c13'
+)
+
 checksum () {
     local hash="$1"
     local outfile="$2"
@@ -20,7 +24,7 @@ checksum () {
     return $?
 }
 
-validateDownload () {
+validate_download () {
     local file=$1
     local url=$2
     local hash=$3
@@ -46,17 +50,31 @@ validateDownload () {
 echo "Validating model files..."
 for model in "${MODEL_FILES[@]}"; do
     model=($model)
-    validateDownload ${model[0]} ${model[1]} ${model[2]} /models
+    validate_download ${model[0]} ${model[1]} ${model[2]} /models
 done
 
 # Validate facexlib files
 echo "Validating facexlib files..."
 for model in "${FACEXLIB_FILES[@]}"; do
     model=($model)
-    validateDownload ${model[0]} ${model[1]} ${model[2]} /app/src/facexlib/facexlib/weights
+    validate_download ${model[0]} ${model[1]} ${model[2]} /app/src/facexlib/facexlib/weights
+done
+
+# Validate LDSR files
+echo "Validating LDSR files..."
+for model in "${LDSR_FILES[@]}"; do
+    model=($model)
+    validate_download ${model[0]} ${model[1]} ${model[2]} /models
 done
 
 #socat TCP4-LISTEN:8080,fork TCP4:172.17.0.1:7860 &
+
+# Enable textual inversion (because it is not compatible with Latent diffusion currently, its set for opt-in)
+if [ "${ENABLE_TEXTUAL_INVERSION}" = "true" ] ; then
+  echo "Cloning and installing Textual Inversion (breaks Latent Diffusion Super Resolution!!!)"
+  git clone https://github.com/hlky/sd-enable-textual-inversion /tmp/sd-enable-textual-inversion
+  cp -ax /tmp/sd-enable-textual-inversion/* /app/ && rm -rf /tmp/sd-enable-textual-inversion
+fi
 
 if [ "${RUN_MODE}" = "OPTIMIZED" ] ; then
   echo "Running OPTIMIZED mode"

@@ -51,10 +51,6 @@ RUN echo "Adding Latent-Diffusion" && git clone https://github.com/Hafiidz/laten
     wget -O /app/src/latent-diffusion/experiments/pretrained_models/project.yaml -q --show-progress --progress=bar:force https://heibox.uni-heidelberg.de/f/31a76b13ea27482981b4/?dl=1 && \
     ln -s /models/LDSR.ckpt /app/src/latent-diffusion/experiments/pretrained_models/model.ckpt
     
-# Add textual inversion
-RUN echo "Adding Textual Inversion" && git clone https://github.com/hlky/sd-enable-textual-inversion /tmp/sd-enable-textual-inversion && \
-	cp -ax /tmp/sd-enable-textual-inversion/* /app/ && rm -rf /tmp/sd-enable-textual-inversion
-
 EXPOSE 7860
 
 COPY entrypoint.sh /app/

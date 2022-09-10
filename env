@@ -1,3 +1,6 @@
+# enable textual inversion (currently breaks Latent Diffusion Super Resolution (LDSR)
+#ENABLE_TEXTUAL_INVERSION=true
+
 # uncomment for memory optimized Mode
 #RUN_MODE=OPTIMIZED
 
