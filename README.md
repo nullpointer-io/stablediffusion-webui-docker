@@ -73,6 +73,8 @@ The AI models are downloaded automatically when the related files are missing in
 All information about the models (URLs, hashes, etc.) are configured in the file
 `build/entrypoint.sh`.
 
+Optional: Backup the downloaded models.
+
 7. Final result:
 
 - A Docker container with the name `stablediffusion-webui` is available.
