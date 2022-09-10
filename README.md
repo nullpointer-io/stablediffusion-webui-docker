@@ -38,47 +38,48 @@ After the start the RAM consumption of the Webui is no problem anymore.
 ## Installation
 
 1. Clone the repository:
-``` 
-git clone https://github.com/nullpointer-io/stablediffusion-webui-docker
-```
+   ``` 
+   git clone https://github.com/nullpointer-io/stablediffusion-webui-docker
+   ```
 
 2. Change into the project directory:
-``` 
-cd stablediffusion-webui-docker
-```
+   ``` 
+   cd stablediffusion-webui-docker
+   ```
 
 3. Build Docker image:
-``` 
-./webui.sh build
-```
+   ``` 
+   ./webui.sh build
+   ```
 4. Edit the file **env** and uncomment your favorite GPU configuration.
 
-Optionally:
-- WEBUI_RELAUNCH: Comment it in if you experience that the Webui gets 
-  unresponsive quite often because the process died within the Docker
-  container.
-- ENABLE_TEXTUAL_INVERSION: Currently it will break LDSR so it is not
-  enabled. If you need it then comment it in. 
+   Optionally:
+ 
+     - WEBUI_RELAUNCH: Comment it in if you experience that the Webui gets 
+       unresponsive quite often because the process died within the Docker
+       container.
+     - ENABLE_TEXTUAL_INVERSION: Currently it will break LDSR so it is not
+       enabled. If you need it then comment it in. 
 
 5. Run Stable Diffusion Webui:
-``` 
-./webui.sh run
-```
+   ``` 
+   ./webui.sh run
+   ```
 6. Watch the automatic download of the AI models after executing `./webui.sh run`:
-```
-docker logs -f stablediffusion-webui
-```
-The AI models are downloaded automatically when the related files are missing in
-`./share/facexlib` and `./share/models`.
-All information about the models (URLs, hashes, etc.) are configured in the file
-`build/entrypoint.sh`.
+   ```
+   docker logs -f stablediffusion-webui
+   ```
+   The AI models are downloaded automatically when the related files are missing in
+   `./share/facexlib` and `./share/models`.
+   All information about the models (URLs, hashes, etc.) are configured in the file
+   `build/entrypoint.sh`.
 
-Optional: Backup the downloaded models.
+   Optional: Backup the downloaded models.
 
 7. Final result:
 
-- A Docker container with the name `stablediffusion-webui` is available.
-- The webui is listening on http://127.0.0.1:7860.
+   - A Docker container with the name `stablediffusion-webui` is available.
+   - The webui is listening on http://127.0.0.1:7860.
 
 ## Usage
 
