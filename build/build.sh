@@ -4,7 +4,7 @@
 
 HERE="$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
-LOCAL_IMAGE='stable-diffusion-webui'
+LOCAL_IMAGE='stablediffusion-webui'
 
 can_sudo () {
     sudo_response=$(SUDO_ASKPASS=/bin/false sudo -A whoami 2>&1 | wc -l)

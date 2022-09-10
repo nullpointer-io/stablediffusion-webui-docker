@@ -34,7 +34,7 @@ run () {
 		-v "$PARENT/output:/output" \
 		--env-file "$PARENT/env" \
 		"$LOCAL_IMAGE"	
-	echo "Please watch the logs with 'docker logs -f stable-diffusion-webui'."
+	echo "Please watch the logs with 'docker logs -f stablediffusion-webui'."
 }
 
 if [ "$ACTION" == "build" ]; then

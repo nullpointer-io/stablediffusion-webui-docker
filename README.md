@@ -7,7 +7,6 @@ https://github.com/Sharrnah/stable-diffusion-docker
 
 It will be kept in sync with the original project. 
 
-
 ## Setup Reference
 
 Tested with following computer setup:
@@ -55,9 +54,9 @@ cd stablediffusion-webui-docker
 4. Edit the file **env** and uncomment your favorite GPU configuration.
 
 Optional also in the **env** file:
-- WEBUI_RELAUNCH: Comment out or set it to false if you want to deactivate it.
-  It is a healing mechanism if the Webui process should exit within
-  Docker for some reason. 
+- WEBUI_RELAUNCH: Comment it in if you experience that the Webui gets 
+  unresponsive quite often because the process died within the Docker
+  container.
 - ENABLE_TEXTUAL_INVERSION: Currently it will break LDSR so it is not
   enabled. If you need it then comment it in. 
 
@@ -83,7 +82,7 @@ All information about the models (URLs, hashes, etc.) are configured in the file
 
 Open the URL http://127.0.0.1:7860. 
 
-How to use the Stable Diffusion Webui see here: https://github.com/hlky/stable-diffusion
+How to use the Stable Diffusion Webui see here: https://github.com/sd-webui/stable-diffusion-webui
 
 Output files are stored to `./output`.
 
@@ -91,4 +90,5 @@ Output files are stored to `./output`.
 
 - https://rentry.org/GUItard
 - https://github.com/sd-webui/stable-diffusion-webui
+- https://github.com/Hafiidz/latent-diffusion
 - https://github.com/Sharrnah/Stable-Diffusion-Docker
