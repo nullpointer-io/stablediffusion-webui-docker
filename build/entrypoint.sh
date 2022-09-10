@@ -14,10 +14,10 @@ FACEXLIB_FILES=(
 )
 
 checksum () {
-	local hash="$1"
-	local outfile="$2"
-	sha256sum --strict --check --status <<< "${hash} $outfile" 
-	return $?
+    local hash="$1"
+    local outfile="$2"
+    sha256sum --strict --check --status <<< "${hash} $outfile" 
+    return $?
 }
 
 validateDownload () {
@@ -45,14 +45,14 @@ validateDownload () {
 # Validate model files
 echo "Validating model files..."
 for model in "${MODEL_FILES[@]}"; do
-  	model=($model)
+    model=($model)
     validateDownload ${model[0]} ${model[1]} ${model[2]} /models
 done
 
 # Validate facexlib files
 echo "Validating facexlib files..."
 for model in "${FACEXLIB_FILES[@]}"; do
-  	model=($model)
+    model=($model)
     validateDownload ${model[0]} ${model[1]} ${model[2]} /app/src/facexlib/facexlib/weights
 done
 
